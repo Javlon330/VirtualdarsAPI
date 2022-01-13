@@ -17,7 +17,13 @@ const customerSchema = new mongoose.Schema({
         required: true,
         minlength: 5,
         maxlength: 50
+    },
+    bonusPoints: {
+        type: Number,
+        default: 1,
+        required: true
     }
+
 });
 
 const Customer = mongoose.model('Customer', customerSchema);
@@ -26,7 +32,8 @@ function validateCustomer(customer) {
     const schema = {
         name: Joi.string().required().min(5).max(50),
         isVip: Joi.boolean().required(),
-        phone: Joi.string().required().min(5).max(50)
+        phone: Joi.string().required().min(5).max(50),
+        bonusPoints: Joi.number().default(1)
     }
 
     return Joi.object(schema).validate(customer, schema);
@@ -34,3 +41,4 @@ function validateCustomer(customer) {
 
 exports.Customer = Customer;
 exports.validate = validateCustomer;
+exports.customerSchema = customerSchema;
